@@ -1,91 +1,123 @@
 // Menu toggle functionality
-document.querySelector('.menu-toggle').addEventListener('click', function() {
-    document.querySelector('nav ul').classList.toggle('active');
-});
+const menuToggle = document.querySelector('.menu-toggle');
+const navMenu = document.querySelector('nav ul');
+menuToggle?.addEventListener('click', () => navMenu.classList.toggle('active'));
 
 // Gallery carousel functionality
-document.addEventListener('DOMContentLoaded', function() {
-    const images = document.querySelectorAll('.gallery img');
+document.addEventListener('DOMContentLoaded', () => {
+    const images = [...document.querySelectorAll('.gallery img')];
     const prevBtn = document.querySelector('.prev');
     const nextBtn = document.querySelector('.next');
     const dotsContainer = document.querySelector('.gallery-dots');
     let currentIndex = 0;
     let intervalId;
 
-    // Create dots for navigation
-    images.forEach((_, idx) => {
-        const dot = document.createElement('div');
-        dot.classList.add('dot');
-        if (idx === 0) dot.classList.add('active');
-        dot.addEventListener('click', () => showImage(idx));
-        dotsContainer.appendChild(dot);
-    });
+    const createDots = () => {
+        images.forEach((_, idx) => {
+            const dot = document.createElement('div');
+            dot.classList.add('dot');
+            if (idx === 0) dot.classList.add('active');
+            dot.addEventListener('click', () => showImage(idx));
+            dotsContainer?.appendChild(dot);
+        });
+    };
 
-    function showImage(index) {
+    const showImage = (index) => {
         images.forEach(img => img.classList.remove('active'));
-        document.querySelectorAll('.dot').forEach(dot => dot.classList.remove('active'));
+        const dots = document.querySelectorAll('.dot');
+        dots.forEach(dot => dot.classList.remove('active'));
         
-        images[index].classList.add('active');
-        document.querySelectorAll('.dot')[index].classList.add('active');
+        images[index]?.classList.add('active');
+        dots[index]?.classList.add('active');
         currentIndex = index;
-    }
+    };
 
-    function nextImage() {
-        currentIndex = (currentIndex + 1) % images.length;
-        showImage(currentIndex);
-    }
+    const nextImage = () => showImage((currentIndex + 1) % images.length);
+    const prevImage = () => showImage((currentIndex - 1 + images.length) % images.length);
 
-    function prevImage() {
-        currentIndex = (currentIndex - 1 + images.length) % images.length;
-        showImage(currentIndex);
-    }
-
-    // Add event listeners for navigation
-    prevBtn.addEventListener('click', () => {
-        clearInterval(intervalId);
-        prevImage();
-        startAutoSlide();
-    });
-
-    nextBtn.addEventListener('click', () => {
-        clearInterval(intervalId);
-        nextImage();
-        startAutoSlide();
-    });
-
-    // Touch events for mobile swipe
-    let touchStartX = 0;
-    const gallery = document.querySelector('.gallery');
-
-    gallery.addEventListener('touchstart', e => {
-        touchStartX = e.touches[0].clientX;
-    });
-
-    gallery.addEventListener('touchend', e => {
-        const touchEndX = e.changedTouches[0].clientX;
-        const difference = touchStartX - touchEndX;
-
-        if (Math.abs(difference) > 50) { // Minimum swipe distance
-            clearInterval(intervalId);
-            if (difference > 0) {
-                nextImage();
-            } else {
-                prevImage();
-            }
-            startAutoSlide();
-        }
-    });
-
-    // Auto advance slides
-    function startAutoSlide() {
+    const startAutoSlide = () => {
         if (intervalId) clearInterval(intervalId);
-        intervalId = setInterval(nextImage, 5000); // Change slide every 5 seconds
+        intervalId = setInterval(nextImage, 5000);
+    };
+
+    const handleSlideNavigation = (direction) => {
+        clearInterval(intervalId);
+        direction === 'next' ? nextImage() : prevImage();
+        startAutoSlide();
+    };
+
+    // Initialize gallery
+    if (images.length) {
+        createDots();
+        
+        // Event listeners
+        prevBtn?.addEventListener('click', () => handleSlideNavigation('prev'));
+        nextBtn?.addEventListener('click', () => handleSlideNavigation('next'));
+
+        const gallery = document.querySelector('.gallery');
+        let touchStartX = 0;
+
+        gallery?.addEventListener('touchstart', e => {
+            touchStartX = e.touches[0].clientX;
+        });
+
+        gallery?.addEventListener('touchend', e => {
+            const touchEndX = e.changedTouches[0].clientX;
+            const difference = touchStartX - touchEndX;
+
+            if (Math.abs(difference) > 50) {
+                handleSlideNavigation(difference > 0 ? 'next' : 'prev');
+            }
+        });
+
+        gallery?.addEventListener('mouseenter', () => clearInterval(intervalId));
+        gallery?.addEventListener('mouseleave', startAutoSlide);
+
+        startAutoSlide();
     }
+});
 
-    // Initialize auto-slide
-    startAutoSlide();
+// Contact form handling
+const contactForm = document.getElementById('contactForm');
+contactForm?.addEventListener('submit', async function(e) {
+    e.preventDefault();
+    
+    try {
+        const formData = new FormData(this);
+        const fecha = formData.get('fecha');
+        
+        // Actualizar el mensaje de autorespuesta con la fecha
+        const autoresponseInput = this.querySelector('[name="_autoresponse"]');
+        if (autoresponseInput) {
+            const mensaje = autoresponseInput.value.replace('{fecha}', new Date(fecha).toLocaleDateString());
+            autoresponseInput.value = mensaje;
+        }
 
-    // Pause auto-slide when user hovers over gallery
-    gallery.addEventListener('mouseenter', () => clearInterval(intervalId));
-    gallery.addEventListener('mouseleave', startAutoSlide);
+        const response = await fetch(this.action, {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'Accept': 'application/json'
+            }
+        });
+
+        if (response.ok) {
+            alert('¡Gracias! Tu reserva ha sido registrada. Recibirás un correo de confirmación en breve.');
+            this.reset();
+        } else {
+            throw new Error('Error al enviar la reserva');
+        }
+    } catch (error) {
+        alert('Lo sentimos, hubo un error al procesar tu reserva. Por favor, intenta nuevamente.');
+    }
+});
+
+// Smooth scroll for reservation buttons
+document.querySelectorAll('a[href="#contacto"]').forEach(anchor => {
+    anchor?.addEventListener('click', function(e) {
+        e.preventDefault();
+        document.querySelector(this.getAttribute('href'))?.scrollIntoView({
+            behavior: 'smooth'
+        });
+    });
 });
