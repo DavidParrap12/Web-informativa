@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="La Estancia Mirador - Alojamiento de lujo en Melgar, Colombia. Disfruta de piscinas, jacuzzi y eventos especiales en un entorno natural exclusivo.">
+    <meta name="keywords" content="La Estancia Mirador, alojamiento Melgar, finca de lujo, eventos especiales, piscina, jacuzzi, Colombia">
+    <meta name="author" content="La Estancia Mirador">
+    <meta name="robots" content="index, follow">
+    <title>La Estancia Mirador | Alojamiento de Lujo en Chucuni, Colombia</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="main-header">
+        <div class="header-content">
+            <h1>La Estancia Mirador Chucuni</h1>
+            <p>El mejor alojamiento de lujo en Chucuni con piscina y jacuzzi</p>
+        </div>
+        <button class="menu-toggle" aria-label="Menú">☰</button>
+    </header>
+    
+    <nav>
+        <ul>
+            <li><a href="#inicio">Inicio</a></li>
+            <li><a href="#sobre">Sobre Nosotros</a></li>
+            <li><a href="#servicios">Servicios</a></li>
+            <li><a href="#galeria">Galería</a></li>
+            <li><a href="#ubicacion">Ubicación</a></li>
+            <li><a href="#contacto">Contacto</a></li>
+        </ul>
+    </nav>
+    
+    <section id="inicio">
+        <h2>Bienvenido a La Estancia Mirador Chucuni</h2>
+        <p>Descubre el mejor alojamiento de lujo en Chucuni, Colombia. Disfruta de nuestras exclusivas instalaciones con piscina, jacuzzi y hermosas vistas panorámicas.</p>
+        <div itemscope itemtype="http://schema.org/LodgingBusiness">
+            <h3 itemprop="name">La Estancia Mirador</h3>
+            <p itemprop="description">Alojamiento de lujo en Chucuni con instalaciones premium</p>
+            <div itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">
+                <span itemprop="streetAddress">Vereda La Cajita</span>,
+                <span itemprop="addressLocality">Chucuni</span>,
+                <span itemprop="addressRegion">Tolima</span>,
+                <span itemprop="addressCountry">Colombia</span>
+            </div>
+            <div itemprop="geo" itemscope itemtype="http://schema.org/GeoCoordinates">
+                <meta itemprop="latitude" content="4.4725040" />
+                <meta itemprop="longitude" content="-75.0569198" />
+            </div>
+        </div>
+    </section>
+    
+    <section id="sobre">
+        <h2>Sobre Nosotros</h2>
+        <p>Ubicada en un entorno natural, nuestra finca ofrece una experiencia de lujo con instalaciones de primer nivel.</p>
+    </section>
+    
+    <section id="servicios">
+        <h2>Nuestras Instalaciones</h2>
+        <ul>
+            <li>Casa campestre con diseño exclusivo</li>
+            <li>Piscinas de lujo</li>
+            <li>Jacuzzi con vista panorámica</li>
+            <li>Salón de eventos para ocasiones especiales</li>
+        </ul>
+        <a href="#contacto" class="btn">Reserva Ahora</a>
+    </section>
+    
+    
+    <section id="galeria">
+        <h2>Galería de La Estancia Mirador</h2>
+        <div class="gallery">
+            <img src="imagen1.jpg" alt="Vista panorámica de La Estancia Mirador en Chucuni" loading="lazy">
+            <img src="imagen2.jpg" alt="Lujosa piscina con zona de descanso en La Estancia" loading="lazy">
+            <img src="imagen3.jpg" alt="Jacuzzi privado con vista panorámica en Chucuni" loading="lazy">
+            <img src="imagen4.jpg" alt="Elegante salón de eventos para celebraciones especiales" loading="lazy">
+        </div>
+    </section>
+    
+    <section id="ubicacion">
+        <h2>Ubicación</h2>
+        <p>Encuéntranos en el corazón de la naturaleza, en un lugar perfecto para desconectarte y relajarte.</p>
+        <div class="map">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3977.668809120408!2d-75.05691982432397!3d4.472504043592094!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8e38cd14fecee42d%3A0xa33947697d0d7615!2sMIRADOR%20DE%20LA%20ESTANCIA!5e0!3m2!1ses-419!2sco!4v1740448305744!5m2!1ses-419!2sco" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    
+    <section id="contacto">
+        <h2>Contacto y Reservas</h2>
+        <form class="contact-form">
+            <input type="text" placeholder="Nombre" required>
+            <input type="email" placeholder="Correo Electrónico" required>
+            <textarea placeholder="Mensaje" rows="4" required></textarea>
+            <button type="submit" class="btn">Enviar</button>
+        </form>
+    </section>
+    
+    <footer>
+        <p>&copy; 2025 La Estancia Mirador Chucuni. Todos los derechos reservados.</p>
+        <p>Teléfono: <a href="tel:+573XXXXXXXXX">+57 3XX XXX XXXX</a></p>
+        <p>Email: <a href="mailto:contacto@laestanciamirador.com">contacto@laestanciamirador.com</a></p>
+    </footer>
+    <script>
+        document.querySelector('.menu-toggle').addEventListener('click', function() {
+            document.querySelector('nav ul').classList.toggle('active');
+        });
+    </script>
+    <script src="index.js"></script>
+</body>
+</html>
