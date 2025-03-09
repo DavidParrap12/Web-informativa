@@ -79,6 +79,26 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Contact form handling
 const contactForm = document.getElementById('contactForm');
+
+// Add video autoplay functionality
+document.addEventListener('DOMContentLoaded', () => {
+    const videos = document.querySelectorAll('video');
+    
+    const videoObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.play();
+            } else {
+                entry.target.pause();
+            }
+        });
+    }, { threshold: 0.5 });
+
+    videos.forEach(video => {
+        video.muted = true; // Necesario para autoplay en la mayoría de navegadores
+        videoObserver.observe(video);
+    });
+});
 contactForm?.addEventListener('submit', async function(e) {
     e.preventDefault();
     
@@ -121,3 +141,6 @@ document.querySelectorAll('a[href="#contacto"]').forEach(anchor => {
         });
     });
 });
+
+// Recargar el widget de Instagram cuando sea necesario
+window.instgrm?.Embeds.process();
