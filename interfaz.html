@@ -10,6 +10,8 @@
     <title>La Estancia Mirador Chucuni | Alojamiento de Lujo con Piscina y Jacuzzi en Tolima</title>
     <link rel="stylesheet" href="styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/intl-tel-input@18.2.1/build/css/intlTelInput.css">
+    <script src="https://cdn.jsdelivr.net/npm/intl-tel-input@18.2.1/build/js/intlTelInput.min.js"></script>
 </head>
 <body>
     <header class="main-header">
@@ -24,7 +26,6 @@
         <ul>
             <li><a href="#inicio">Inicio</a></li>
             <li><a href="#sobre">Sobre Nosotros</a></li>
-            <li><a href="#servicios">Servicios</a></li>
             <li><a href="#galeria">Galería</a></li>
             <li><a href="#ubicacion">Ubicación</a></li>
             <li><a href="#contacto">Contacto</a></li>
@@ -32,16 +33,16 @@
     </nav>
     
     <section id="inicio">
-        <h2>Bienvenido a La Estancia Mirador Chucuni</h2>
-        <p>Descubre el mejor alojamiento de lujo en Chucuni, Colombia. Disfruta de nuestras exclusivas instalaciones con piscina, jacuzzi y hermosas vistas panorámicas.</p>
+        <h2>Bienvenido a La Estancia Mirador Chucuní</h2>
+        <p class="hero-text">Descubre un refugio de lujo en Chucuní, Colombia. Relájate en nuestras exclusivas instalaciones con piscina, jacuzzi y vistas panorámicas inigualables.</p>
         <div itemscope itemtype="http://schema.org/LodgingBusiness">
-            <h3 itemprop="name">La Estancia Mirador</h3>
-            <p itemprop="description">Alojamiento de lujo en Chucuni con instalaciones premium</p>
-            <div itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">
-                <span itemprop="streetAddress">Vereda La Cajita</span>,
-                <span itemprop="addressLocality">Chucuni</span>,
+            <h3 itemprop="name" class="estate-name">🏡 La Estancia Mirador</h3>
+            <p itemprop="description" class="estate-description">Un oasis de comodidad y exclusividad en el corazón de Tolima.</p>
+            <div itemprop="address" itemscope itemtype="http://schema.org/PostalAddress" class="estate-address">
+                <p>📍 <span itemprop="streetAddress">Vereda La Cajita</span>,
+                <span itemprop="addressLocality">Chucuní</span>,
                 <span itemprop="addressRegion">Tolima</span>,
-                <span itemprop="addressCountry">Colombia</span>
+                <span itemprop="addressCountry">Colombia</span></p>
             </div>
             <div itemprop="geo" itemscope itemtype="http://schema.org/GeoCoordinates">
                 <meta itemprop="latitude" content="4.4725040" />
@@ -52,21 +53,9 @@
     
     <section id="sobre">
         <h2>Sobre Nosotros</h2>
-        <p>Ubicada en un entorno natural, nuestra finca ofrece una experiencia de lujo con instalaciones de primer nivel.</p>
+        <p>Ubicada en un entorno natural, nuestra finca ofrece una experiencia de lujo con instalaciones de primer nivel, incluyendo una casa campestre con diseño exclusivo, piscinas de lujo, jacuzzi con vista panorámica y un salón de eventos para ocasiones especiales.</p>
     </section>
-    
-    <section id="servicios">
-        <h2>Nuestras Instalaciones</h2>
-        <ul>
-            <li>Casa campestre con diseño exclusivo</li>
-            <li>Piscinas de lujo</li>
-            <li>Jacuzzi con vista panorámica</li>
-            <li>Salón de eventos para ocasiones especiales</li>
-        </ul>
-        <a href="#contacto" class="btn">Reserva Ahora</a>
-    </section>
-    
-    
+
     <section id="galeria">
         <h2>Galería de La Estancia Mirador</h2>
         <div class="gallery-container">
@@ -121,28 +110,47 @@
     
     <section id="contacto">
         <h2>Contacto y Reservas</h2>
-        <form class="contact-form" id="contactForm" action="https://formspree.io/f/your-form-id" method="POST">
-            <input type="text" name="nombre" placeholder="Introduce tu nombre completo" required>
-            <input type="email" name="email" placeholder="Tu correo electrónico" required 
-                pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" 
-                title="Por favor, introduce un correo electrónico válido">
-            <input type="tel" name="telefono" placeholder="Número de teléfono (ej: 321234567)" required
-                pattern="[0-9]{10}" title="Por favor, introduce un número de teléfono válido">
-            
-            <label for="fecha" style="margin-top: 10px;">Fecha de reserva</label>
-            <input type="date" name="fecha" required>
-            
-            <textarea name="mensaje" placeholder="¿Tienes alguna pregunta o requerimiento especial?" rows="4" required></textarea>
-            <button type="submit" class="btn btn-submit">Enviar Reserva</button>
-        </form>
+        <div class="container">
+            <form class="contact-form" id="contactForm" action="https://formspree.io/f/your-form-id" method="POST">
+                <div class="form-group">
+                    <label for="nombre" class="required">Nombre completo</label>
+                    <input type="text" id="nombre" name="nombre" placeholder="Introduce tu nombre completo" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="email" class="required">Correo electrónico</label>
+                    <input type="email" id="email" name="email" placeholder="Tu correo electrónico" required
+                        pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" 
+                        title="Por favor, introduce un correo electrónico válido">
+                </div>
+                
+                <div class="form-group">
+                    <label for="telefono" class="required">Número de teléfono</label>
+                    <input type="tel" id="telefono" name="telefono" class="phone-number" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="fecha" class="required">Fecha de reserva</label>
+                    <input type="date" id="fecha" name="fecha" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="mensaje">¿Tienes alguna pregunta o requerimiento especial?</label>
+                    <textarea id="mensaje" name="mensaje" rows="4" 
+                        placeholder="Escribe tus preguntas o requerimientos aquí"></textarea>
+                </div>
+                
+                <button type="submit" class="btn btn-submit">Enviar Reserva</button>
+            </form>
+        </div>
     </section>
     
     <footer class="main-footer">
-        <p class="copyright">&copy; 2025 La Estancia Mirador Chucuni. Todos los derechos reservados.</p>
         <p class="contact-info">
             <a href="tel:+573XXXXXXXXX" class="footer-link">📞 +57 3XX XXX XXXX</a>
             <a href="mailto:contacto@laestanciamirador.com" class="footer-link">✉️ contacto@laestanciamirador.com</a>
         </p>
+        <p class="copyright">&copy; 2025 La Estancia Mirador Chucuni. Todos los derechos reservados.</p>
     </footer>
 
     <a href="https://wa.me/573XXXXXXXXX" class="whatsapp-float" target="_blank" rel="noopener noreferrer">
@@ -155,7 +163,15 @@
         });
     </script>
     <script src="index.js"></script>
-</body>
+    <script>
+        const phoneInput = window.intlTelInput(document.querySelector("#telefono"), {
+            preferredCountries: ["co", "us", "es"],
+            initialCountry: "co",
+            separateDialCode: true,
+            utilsScript: "https://cdn.jsdelivr.net/npm/intl-tel-input@18.2.1/build/js/utils.js",
+        });
+    </script>
+    </body>
 </html>
 
 

@@ -16,7 +16,9 @@ document.addEventListener('DOMContentLoaded', () => {
         images.forEach((_, idx) => {
             const dot = document.createElement('div');
             dot.classList.add('dot');
-            if (idx === 0) dot.classList.add('active');
+            if (idx === 0) {
+                dot.classList.add('active');
+            }
             dot.addEventListener('click', () => showImage(idx));
             dotsContainer?.appendChild(dot);
         });
@@ -42,7 +44,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const handleSlideNavigation = (direction) => {
         clearInterval(intervalId);
-        direction === 'next' ? nextImage() : prevImage();
+        if (direction === 'next') {
+            nextImage();
+        } else {
+            prevImage();
+        }
         startAutoSlide();
     };
 
@@ -80,6 +86,44 @@ document.addEventListener('DOMContentLoaded', () => {
 // Contact form handling
 const contactForm = document.getElementById('contactForm');
 
+contactForm?.addEventListener('submit', async function(e) {
+    e.preventDefault();
+    
+    try {
+        const formData = new FormData(this);
+        const response = await fetch(this.action, {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'Accept': 'application/json'
+            }
+        });
+
+        if (response.ok) {
+            // Create and show alert
+            const alert = document.createElement('div');
+            alert.className = 'alert success';
+            alert.textContent = '¡Gracias! Tu reserva ha sido registrada exitosamente.';
+            document.body.appendChild(alert);
+
+            // Show the alert
+            setTimeout(() => alert.classList.add('show'), 100);
+
+            // Remove the alert after 5 seconds
+            setTimeout(() => {
+                alert.classList.remove('show');
+                setTimeout(() => alert.remove(), 300);
+            }, 5000);
+
+            this.reset();
+        } else {
+            throw new Error('Error al enviar la reserva');
+        }
+    } catch (error) {
+        alert('Lo sentimos, hubo un error al procesar tu reserva. Por favor, intenta nuevamente.');
+    }
+});
+
 // Add video autoplay functionality
 document.addEventListener('DOMContentLoaded', () => {
     const videos = document.querySelectorAll('video');
@@ -95,40 +139,64 @@ document.addEventListener('DOMContentLoaded', () => {
     }, { threshold: 0.5 });
 
     videos.forEach(video => {
-        video.muted = true; // Necesario para autoplay en la mayoría de navegadores
+        video.muted = true;
         videoObserver.observe(video);
     });
-});
-contactForm?.addEventListener('submit', async function(e) {
-    e.preventDefault();
-    
-    try {
-        const formData = new FormData(this);
-        const fecha = formData.get('fecha');
-        
-        // Actualizar el mensaje de autorespuesta con la fecha
-        const autoresponseInput = this.querySelector('[name="_autoresponse"]');
-        if (autoresponseInput) {
-            const mensaje = autoresponseInput.value.replace('{fecha}', new Date(fecha).toLocaleDateString());
-            autoresponseInput.value = mensaje;
+
+    // Form validation and handling
+    const form = document.getElementById('contactForm');
+    if (form) {
+        // Set minimum date as today
+        const today = new Date().toISOString().split('T')[0];
+        const dateInput = form.querySelector('input[type="date"]');
+        if (dateInput) dateInput.setAttribute('min', today);
+
+        // Phone number formatting
+        const phoneInput = form.querySelector('input[type="tel"]');
+        if (phoneInput) {
+            phoneInput.addEventListener('input', (e) => {
+                e.target.value = e.target.value.replace(/\D/g, '');
+            });
         }
 
-        const response = await fetch(this.action, {
-            method: 'POST',
-            body: formData,
-            headers: {
-                'Accept': 'application/json'
+        // Form submission
+        form.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            try {
+                const formData = new FormData(this);
+                
+                // Basic validation
+                const nombre = formData.get('nombre').trim();
+                const email = formData.get('email').trim();
+                const telefono = formData.get('telefono').trim();
+                const fecha = formData.get('fecha');
+
+                if (!nombre || !email || !telefono || !fecha) {
+                    throw new Error('Por favor, completa todos los campos obligatorios.');
+                }
+
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailRegex.test(email)) {
+                    throw new Error('Por favor, ingresa un correo electrónico válido.');
+                }
+
+                const response = await fetch(this.action, {
+                    method: 'POST',
+                    body: formData,
+                    headers: { 'Accept': 'application/json' }
+                });
+
+                if (response.ok) {
+                    alert('¡Gracias! Tu reserva ha sido registrada. Recibirás un correo de confirmación en breve.');
+                    this.reset();
+                } else {
+                    throw new Error('Error al enviar la reserva');
+                }
+            } catch (error) {
+                alert(error.message || 'Lo sentimos, hubo un error al procesar tu reserva. Por favor, intenta nuevamente.');
             }
         });
-
-        if (response.ok) {
-            alert('¡Gracias! Tu reserva ha sido registrada. Recibirás un correo de confirmación en breve.');
-            this.reset();
-        } else {
-            throw new Error('Error al enviar la reserva');
-        }
-    } catch (error) {
-        alert('Lo sentimos, hubo un error al procesar tu reserva. Por favor, intenta nuevamente.');
     }
 });
 
@@ -142,5 +210,5 @@ document.querySelectorAll('a[href="#contacto"]').forEach(anchor => {
     });
 });
 
-// Recargar el widget de Instagram cuando sea necesario
+// Instagram widget processing
 window.instgrm?.Embeds.process();
