@@ -21,9 +21,14 @@ color: var(--text-color);
 }
 
 /* Header Styles */
+:root {
+--header-overlay: rgba(0, 0, 0, 0.5);
+}
+
+/* Header Styles - Mejorado para responsividad */
 .main-header {
 background: linear-gradient(var(--header-overlay), var(--header-overlay)),
-            url('../imagenes/logo_encabezado.jpg') no-repeat center center;
+            url('./imagenes/logo_encabezado.jpg') no-repeat center center;
 background-size: cover;
 min-height: 400px;
 color: white;
@@ -36,6 +41,29 @@ align-items: center;
 justify-content: center;
 }
 
+/* Media Queries para el header */
+@media (max-width: 768px) {
+.main-header {
+min-height: 300px; /* Altura reducida para tablets */
+background-position: center center;
+}
+}
+
+@media (max-width: 480px) {
+.main-header {
+min-height: 200px; /* Altura aún más reducida para móviles */
+background-size: cover;
+background-position: center center; /* Centrado en todos los casos */
+}
+
+.header-content h1 {
+font-size: 1.8em; /* Texto más pequeño en móviles */
+}
+
+.header-content p {
+font-size: 0.9em;
+}
+}
 .header-content {
 max-width: 800px;
 position: relative;
